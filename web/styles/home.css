@@ -1,0 +1,107 @@
+
+/* .intro {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.intro #name {
+    font-weight: bold;
+    padding-left: 25vw;
+    font-size: 4.5rem;
+}
+.intro #describe {
+    background-color: blueviolet;
+    padding-left: 25vw;
+} */
+
+.canvas {
+    position: relative;
+    text-align: center;
+    height: 52vh;
+    color: white;
+}
+
+.canvas .description {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* font-weight: bold;
+    font-size: 4.5rem; */
+    transform: translate(-60%, -50%);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.canvas #name {
+	font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.35rem;
+    font-size: 4.5rem;
+    color: #472711;
+    text-shadow: 1px 1px 4px #e2af8c;
+
+}
+
+.canvas #describe {
+	color: #613618;
+	font-weight: bold;
+	letter-spacing: 0.1rem;
+}
+
+#renderCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+.menu {
+    background-color: black;
+    width: 100vw;
+    height: 40vh;
+    display: flex;
+    text-transform: uppercase;
+    letter-spacing: 0.35rem;
+    justify-content: center;
+    text-align: center;
+    font-size: 1rem;
+    color: #333;
+}
+
+.menu_item {
+    width: 33.3vw;    
+    line-height: 40vh;
+    transition: 0.4s ease-in-out;
+}
+
+#community {
+    background-color: #fff;
+}
+
+#maps {
+    background-color: #eee;
+}
+#deals {
+    background-color: #ddd;
+}
+
+#community:hover,
+#maps:hover,
+#deals:hover {
+    width: 40vw;
+    color: #ddd;
+    letter-spacing: 0.8rem;
+    font-size: 2rem;
+}
+
+
+#community:hover{
+	background-color:#a25e42;
+}
+#maps:hover {
+	background-color:#70331a;
+}
+#deals:hover {
+	background-color: #420900;
+}

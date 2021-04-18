@@ -1,0 +1,310 @@
+/* styles.css */
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,700");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap");
+
+/* all html  */
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+h2 {
+  text-align: left;
+  letter-spacing: 8px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #f9efe8;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  color: black;
+  min-height: 100vh;
+}
+
+/* 헤더라인 전체 */
+
+header,
+footer {
+  margin: 0 auto;
+  padding: 0.45em;
+  text-align: center;
+  background-color: #420900;
+  text-color: #ffffff;
+  font-size: 0.7em;
+  height: 8vh;
+}
+
+footer {
+  letter-spacing: 1px;
+  color: #aaa;
+}
+
+.header {
+  letter-spacing: 13px;
+  padding-top: 10px;
+  text-align: center;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.header1 {
+  margin: 0;
+  padding: 0.45em;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 로고  */
+
+.logo a {
+  color: #ffffff;
+  letter-spacing: 0.35rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logo {
+  list-style: none;
+  margin: 0 30px;
+  float: left;
+
+  text-transform: uppercase;
+}
+
+.right {
+  z-index: 10;
+  font-size: 0.8em;
+  margin: 0 30px;
+
+  position: relative;
+}
+
+.middle {
+  /* margin: 0 30px; */
+}
+
+/* div 순서 */
+.header1 > .right {
+  order: 3;
+} /* Will be displayed third  */
+.header1 > .middle {
+  order: 1;
+} /* Will be displayed second */
+.header1 > .search {
+  order: 2;
+} /* Will be displayed first  */
+
+/* 서치 */
+.search_engine {
+  z-index: 9;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  align-items: center;
+  height: 8vh;
+  opacity: 0;
+
+  transform-origin: 0% 0%;
+  transform: translate(0, 0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+.search_engine input {
+  width: 20em;
+  padding: 0.4em 0.8em;
+  font-size: 1rem;
+
+  outline: none;
+  border: none;
+  border-top-left-radius: 0.4rem;
+  border-bottom-left-radius: 0.4rem;
+}
+.search_engine button {
+  font-size: 1rem;
+  padding: 0.4em;
+  margin-left: -10px;
+
+  outline: none;
+  border: none;
+
+  border-top-right-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+}
+
+#search_button:checked ~ .search_engine {
+  display: flex;
+  transform: translate(-320px, 0);
+}
+
+#search_button:checked ~ .middle {
+  opacity: 0;
+}
+
+/* 헤더 2 메뉴 바  */
+
+/* background-color:blue; */
+
+div.container a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.35rem;
+  margin: 0px 10px;
+  padding: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+div.right a {
+  margin: 0 3px;
+}
+
+/* Top and Bottom borders go out */
+div.topBotomBordersOut a:before,
+div.topBotomBordersOut a:after {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  content: "";
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+div.topBotomBordersOut a:before {
+  top: 0px;
+  transform: translateY(10px);
+}
+
+div.topBotomBordersOut a:after {
+  bottom: 0px;
+  transform: translateY(-10px);
+}
+
+div.topBotomBordersOut a:hover:before,
+div.topBotomBordersOut a:hover:after {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* 버튼 css */
+.my_button {
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid #5b3216;
+  font-family: "Noto Sans KR", sans-serif;
+  color: gray;
+  padding: 5px;
+  cursor: pointer;
+  margin-bottom: 5px;
+ transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+.my_button:hover {
+  color: #fff;
+  background-color: #5b3216;
+}
+
+a:before {
+  display: block;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  height: 0px;
+  width: 100%;
+  z-index: -1;
+  content: "";
+  color: #000 !important;
+  background: #5b3216;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.masterBtn {
+  width: 100%;
+  height: 50px;
+  font-size: medium;
+  font-family: "Noto Sans KR", sans-serif;
+  color: gray;
+  padding: 5px;
+  cursor: pointer;
+  border: 2px solid #5b3216;
+  background-color: transparent;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+
+}
+
+.masterBtn:hover {
+  color: #fff;
+  background-color: #5b3216;
+}
+
+.masterBtn:hover:before {
+  bottom: auto;
+  height: 100%;
+}
+
+.masterBtn:before {
+  display: block;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  height: 0px;
+  width: 100%;
+  z-index: -1;
+  content: "";
+  color: #000 !important;
+  background: #5b3216;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+.go_btn,
+.back_btn {
+  width: 280px;
+  font-size: 1.3rem;
+}
+
+
+/* 네비게이션 바 아래 딜,커뮤니티 용 메뉴바 */
+.btn_div {
+	 text-align: right;
+}
+
+
+.commuList_hr{
+	width: 70%;
+	margin : 0 auto;
+
+}
+
+.community_a{
+	/* margin-left: 210px; */
+	margin-left: 15%;
+	text-align:left;
+	font-size: 30px;
+	color : #5b3216;
+}

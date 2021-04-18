@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+<Resource
+	name="jdbc/ora"
+	author="Container"
+	type="javax.sql.DataSource"
+	username="edu"
+	password="1234"
+	driverClassName="oracle.jdbc.driver.OracleDriver"
+	url="jdbc:oracle:thin:@127.0.0.1:1521:XE">
+</Resource>
+
+<Resource
+	name="jdbc/mysql"
+	author="Container"
+	type="javax.sql.DataSource"
+	username="root"
+	password="1234"
+	driverClassName="com.mysql.cj.jdbc.Driver"
+	url="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=UTC">
+</Resource>
+
+</Context>
+
+
+
+
+
+<!-- 
+커넥션 풀(Connection Pool)
+
+데이터베이스 연결을 미리 해두고 프로그램에서는 미리 연결된 객체를 받아다가 사용하고 반환하는 방법
+일반 코드로 데이터베이스 연결과 해제를 직접 관리하는 것은 어려운 작업이기 때문에 이러한 방법을 사용합니다.
+특별한 경우를 제외하고는 자바에서 데이터베이스 연동을 할 때는 이 방법을 사용합니다.
+스프링이나 마이바티스와 같은 프레임워크도 연결은 이 방법을 사용합니다.
+다른 프레임워크를 사용하지 않는 경우에는 연결에 필요한 옵션을 META-INF 폴더의 context.xml 파일에 작성합니다.
+공공기관이 아닌 작은 규모의 기업 프로젝트에서는 프레임워크를 사용하지 않는 경우가 종종 있는데 그 경우에는 
+이 방법을 통해서 데이터베이스 연동을 합니다.
+
+java:comp/env은 모든 설정된 엔트리와 자원(Resource)은 
+JNDI namespace 의 java:comp/env 부분에 놓이게 되고 자원에 대해
+접근하려면 lookup("java:comp/env")을 통해 로컬리소스에 접근한다.
+
+context.xml 작성 요령
+<?xml version="1.0" encoding="UTF-8"?>
+　<Context>
+　<Resource 
+　　name="사용자가 정한 이름"
+　　auth="Container"
+　　type="javax.sql.DataSource"
+　　driverClassName="데이터베이스 종류"
+　　url="데이터베이스 위치"
+　　username="아이디"
+　　password="비밀번호"
+　　factory=
+　　　"org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+　　maxActive="동시 접속 개수"
+　　maxIdle="작업은 수행하지 않고 미리 연결만 해둘 최대 개수" /> 
+　</Context>
+
+참고 : http://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html
+-->

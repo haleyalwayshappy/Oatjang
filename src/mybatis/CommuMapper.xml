@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.CommuMapper">
+	<insert id="commuInsert" parameterType="CommuDTO">
+      <![CDATA[
+      		INSERT INTO COMMU
+      		VALUES(SEQ_COMMU.NEXTVAL,#{userid},#{title},#{images},#{description},0,0,SYSDATE)
+      ]]>
+	</insert>
+	<select id="getCommuList" parameterType="hashmap" resultType="CommuDTO">
+		<![CDATA[
+         SELECT IID,USERID,TITLE,IMAGES,DESCRIPTION,REPLY,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME
+         FROM (SELECT ROWNUM RN, AA.*
+               FROM (SELECT * FROM COMMU ORDER BY IID DESC)AA)
+         WHERE RN>=#{startNum} AND RN<=#{endNum}
+      ]]>
+	</select>
+	<select id="getCommu" parameterType="java.lang.Integer" resultType="CommuDTO">
+		<![CDATA[
+			SELECT * FROM COMMU WHERE IID=#{iid}
+		]]>
+	</select>
+	<update id="commuUpdate" parameterType="CommuDTO">
+      <![CDATA[
+         UPDATE COMMU SET TITLE=#{title},DESCRIPTION=#{description} WHERE IID=#{iid}
+      ]]>
+   </update>
+   <update id="commuDelete" parameterType="java.lang.Integer">
+   		<![CDATA[
+			DELETE FROM COMMU WHERE IID=#{iid}
+		]]>
+   </update>
+   <update id="updateHit" parameterType="java.lang.Integer">
+		<![CDATA[
+			UPDATE COMMU SET HIT=HIT+1 WHERE IID=#{iid}
+		]]>
+	</update>
+	<select id="getReplyList" parameterType="java.lang.Integer" resultType="CommuReplyDTO">
+		<![CDATA[
+         SELECT *
+         FROM COMMUREPLY
+         WHERE IID=#{iid}
+         ORDER BY STEP
+      ]]>
+	</select>
+	<select id="getReplyStep" parameterType="CommuReplyDTO" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT STEP
+         FROM (SELECT STEP FROM COMMUREPLY WHERE IID=#{iid} ORDER BY STEP DESC)
+         WHERE ROWNUM=1
+      ]]>
+	</select>
+	<insert id="replyInsert" parameterType="CommuReplyDTO">
+      <![CDATA[
+      		INSERT INTO COMMUREPLY
+      		VALUES(SEQ_COMMUREPLY.NEXTVAL,#{iid},#{userid},#{nickname},#{content},SEQ_COMMUREPLY.CURRVAL,#{step},SYSDATE)
+      ]]>
+	</insert>
+	<update id="commuUpdateReply" parameterType="java.lang.Integer">
+   		<![CDATA[
+			UPDATE COMMU SET REPLY=(SELECT COUNT(*) FROM COMMUREPLY WHERE IID=#{iid}) WHERE IID=#{iid}
+		]]>
+   </update>
+   <select id="getSubReplyStep" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT STEP
+         FROM (SELECT STEP FROM COMMUREPLY WHERE REF=#{ref} ORDER BY STEP DESC)
+         WHERE ROWNUM=1
+      ]]>
+	</select>
+	<update id="replyUpdateStep" parameterType="CommuReplyDTO">
+   		<![CDATA[
+			UPDATE COMMUREPLY SET STEP=STEP+1 WHERE IID=#{iid} AND STEP>=#{step}
+		]]>
+   </update>
+   <insert id="subReplyInsert" parameterType="CommuReplyDTO">
+      <![CDATA[
+      		INSERT INTO COMMUREPLY
+      		VALUES(SEQ_COMMUREPLY.NEXTVAL,#{iid},#{userid},#{nickname},#{content},#{ref},#{step},SYSDATE)
+      ]]>
+	</insert>
+	<update id="replyUpdate" parameterType="CommuReplyDTO">
+   		<![CDATA[
+			UPDATE COMMUREPLY SET CONTENT=#{content} WHERE RID=#{rid}
+		]]>
+   </update>
+   <update id="replyDelete" parameterType="java.lang.Integer">
+   		<![CDATA[
+			DELETE FROM COMMUREPLY WHERE RID=#{rid} OR REF=#{rid}
+		]]>
+   </update>
+   <select id="getTotalArticle" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) FROM COMMU
+		]]>
+	</select>
+	<select id="getCommuSearchList" parameterType="hashmap" resultType="CommuDTO">
+		<![CDATA[
+         SELECT IID,USERID,TITLE,IMAGES,DESCRIPTION,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME
+         FROM (SELECT ROWNUM RN, AA.*
+               FROM (SELECT * FROM COMMU ORDER BY IID DESC)AA 
+               WHERE (UPPER(TITLE) LIKE#{title}) OR (UPPER(DESCRIPTION) LIKE#{description}))
+         WHERE RN>=#{startNum} AND RN<=#{endNum}
+      ]]>
+	</select>
+	<select id="getCommuSearchListCount" parameterType="hashmap" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT COUNT(*)
+         FROM COMMU
+         WHERE (UPPER(TITLE) LIKE#{title}) OR (UPPER(DESCRIPTION) LIKE#{description})
+      ]]>
+	</select>
+	<select id="getReplyCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT REPLY
+         FROM COMMU
+         WHERE IID=#{iid}
+      ]]>
+	</select>
+</mapper>

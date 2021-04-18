@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.LoginMapper">
+	<select id="getLoginUser" parameterType="LoginDTO" resultType="LoginDTO">
+		<![CDATA[
+			SELECT *
+			FROM USERS WHERE ID=#{id} AND PW=#{pw}
+		]]>
+	</select>
+
+	<!-- <insert id="InsertAddress" parameterType="AddressDTO">
+		<![CDATA[
+			INSERT INTO ADDRESS
+			VALUES(ADDR_SEQ.NEXTVAL, #{roadAddrPart1}, #{roadAddrPart2}, #{addrDetail}, #{lat}, #{lng})
+		]]>
+	</insert> -->
+
+	<insert id="InsertAddress" parameterType="AddressDTO">
+		<![CDATA[
+			INSERT INTO ADDRESS
+			VALUES(ADDR_SEQ.NEXTVAL,  #{roadAddrPart1}, #{roadAddrPart2}, #{addrDetail}, #{lat}, #{lng})
+		]]>
+	</insert>
+
+	<insert id="RegisterUser" parameterType="LoginDTO">
+		<![CDATA[
+			INSERT INTO USERS
+			VALUES(USER_SEQ.NEXTVAL, #{id}, #{pw}, #{name}, #{nickname}, #{age}, #{phone}, ADDR_SEQ.CURRVAL)
+		]]>
+	</insert>
+
+	<update id="updateUser" parameterType="LoginDTO">
+		<![CDATA[
+			UPDATE USERS SET PW=#{pw}, NAME=#{name}, NICKNAME=#{nickname}, AGE=#{age}, PHONE=#{phone}, ADDRID=#{addrId} WHERE ID=#{id}
+		]]>
+	</update>
+
+	<update id="updateAddress" parameterType="AddressDTO">
+		<![CDATA[
+			UPDATE ADDRESS SET ROADADDRPART1=#{roadAddrPart1}, ROADADDRPART2=#{roadAddrPart2}, ADDRDETAIL=#{addrDetail}, LAT=#{lat}, LNG=#{lng} WHERE ADDRID=#{addrId}
+		]]>
+	</update>
+
+	<select id="getUserPassword" parameterType="LoginDTO" resultType="LoginDTO">
+		<![CDATA[
+			SELECT PW
+			FROM USERS WHERE ID=#{id} AND PHONE=#{phone}
+		]]>
+	</select>
+	<select id="getUserId" parameterType="LoginDTO" resultType="LoginDTO">
+		<![CDATA[
+			SELECT ID
+			FROM USERS WHERE NAME=#{name} AND AGE=#{age}
+		]]>
+	</select>
+
+	<!-- addr_id 를 이용하여, 주소 정보를 다 가져온다. -->
+	<select id="getAddressInfo" parameterType="java.lang.Integer" resultType="AddressDTO">
+		<![CDATA[
+			SELECT *
+			FROM ADDRESS WHERE ADDRID=#{addrId}
+		]]>
+	</select>
+
+</mapper>

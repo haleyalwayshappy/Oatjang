@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.BoardMapper">
+	<insert id="boardInsert" parameterType="BoardDTO">
+      <![CDATA[
+      		INSERT INTO ITEM
+      		VALUES(SEQ_ITEM.NEXTVAL,#{userid}, ADDR_SEQ.CURRVAL, #{title},#{price},#{images},#{description},#{category},#{success},NULL,0,0,SYSDATE)
+      ]]>
+	</insert>
+	<!-- <insert id="boardInsert" parameterType="BoardDTO">
+      <![CDATA[
+      		INSERT INTO ITEM
+      		VALUES(SEQ_ITEM.NEXTVAL,#{userid},#{title},#{price},#{images},#{description},#{category},#{success},NULL,0,0,SYSDATE)
+      ]]>
+	</insert> -->
+
+	<insert id="replyInsert" parameterType="ReplyDTO">
+      <![CDATA[
+      		INSERT INTO REPLY
+      		VALUES(SEQ_REPLY.NEXTVAL,#{iid},#{userid},#{nickname},#{content},SEQ_REPLY.CURRVAL,#{step},SYSDATE)
+      ]]>
+	</insert>
+
+	<insert id="subReplyInsert" parameterType="ReplyDTO">
+      <![CDATA[
+      		INSERT INTO REPLY
+      		VALUES(SEQ_REPLY.NEXTVAL,#{iid},#{userid},#{nickname},#{content},#{ref},#{step},SYSDATE)
+      ]]>
+	</insert>
+	<select id="getBoardList" parameterType="hashmap" resultType="BoardDTO">
+		<![CDATA[
+         SELECT IID,USERID,TITLE,PRICE,IMAGES,DESCRIPTION,CATEGORY,REPLY,SUCCESS,BID,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME
+         FROM (SELECT ROWNUM RN, AA.*
+               FROM (SELECT * FROM ITEM ORDER BY IID DESC)AA)
+         WHERE RN>=#{startNum} AND RN<=#{endNum}
+      ]]>
+	</select>
+	<!-- <select id="getBoardList" parameterType="hashmap" resultType="BoardDTO">
+		<![CDATA[
+         SELECT IID,USERID,TITLE,PRICE,IMAGES,DESCRIPTION,CATEGORY,SUCCESS,BID,REPLY,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME
+         FROM (SELECT ROWNUM RN, AA.*
+               FROM (SELECT * FROM ITEM ORDER BY IID DESC)AA)
+         WHERE RN>=#{startNum} AND RN<=#{endNum}
+      ]]>
+	</select> -->
+	<select id="getBoardSearchList" parameterType="hashmap" resultType="BoardDTO">
+		<![CDATA[
+         SELECT IID,USERID,TITLE,PRICE,IMAGES,DESCRIPTION,CATEGORY,SUCCESS,BID,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME
+         FROM (SELECT ROWNUM RN, AA.*
+               FROM (SELECT * FROM ITEM ORDER BY IID DESC)AA 
+               WHERE (UPPER(TITLE) LIKE#{title}) OR (UPPER(CATEGORY) LIKE#{category}) OR (UPPER(DESCRIPTION) LIKE#{description}))
+         WHERE RN>=#{startNum} AND RN<=#{endNum}
+
+      ]]>
+	</select>
+	<select id="getboardSearchList" parameterType="hashmap" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT COUNT(*)
+         FROM ITEM
+         WHERE (UPPER(TITLE) LIKE#{title}) OR (UPPER(CATEGORY) LIKE#{category}) OR (UPPER(DESCRIPTION) LIKE#{description})
+      ]]>
+	</select>
+	
+	
+	
+	<select id="getReplyList" parameterType="java.lang.Integer" resultType="ReplyDTO">
+		<![CDATA[
+         SELECT *
+         FROM REPLY
+         WHERE IID=#{iid}
+         ORDER BY STEP
+      ]]>
+	</select>
+	<select id="getReplyCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT REPLY
+         FROM ITEM
+         WHERE IID=#{iid}
+      ]]>
+	</select>
+	<select id="getReply" parameterType="java.lang.Integer" resultType="ReplyDTO">
+		<![CDATA[
+         SELECT *
+         FROM REPLY
+         WHERE RID=#{rid}
+      ]]>
+	</select>
+	<select id="getReplyStep" parameterType="ReplyDTO" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT STEP
+         FROM (SELECT STEP FROM REPLY WHERE IID=#{iid} ORDER BY STEP DESC)
+         WHERE ROWNUM=1
+      ]]>
+	</select>
+	<select id="getSubReplyStep" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		<![CDATA[
+         SELECT STEP
+         FROM (SELECT STEP FROM REPLY WHERE REF=#{ref} ORDER BY STEP DESC)
+         WHERE ROWNUM=1
+      ]]>
+	</select>
+
+	<select id="getTotalArticle" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) FROM ITEM
+		]]>
+	</select>
+
+
+	<update id="updateHit" parameterType="java.lang.Integer">
+		<![CDATA[
+			UPDATE ITEM SET HIT=HIT+1 WHERE IID=#{iid}
+		]]>
+	</update>
+
+	<select id="getBoard" parameterType="java.lang.Integer" resultType="BoardDTO">
+		<![CDATA[
+			SELECT IID,USERID,TITLE,PRICE,IMAGES,DESCRIPTION,CATEGORY,SUCCESS,BID,REPLY,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME,ROADADDRPART1,ROADADDRPART2,ADDRDETAIL, LAT , LNG
+	         FROM ITEM
+	         LEFT JOIN ADDRESS
+	         ON ITEM.ADDRID = ADDRESS.ADDRID
+	         WHERE IID=#{iid}
+		]]>
+	</select>
+	<select id="getNickname" parameterType="java.lang.Integer" resultType="java.lang.String">
+		<![CDATA[
+			SELECT NICKNAME FROM USERS WHERE USERID=#{userid}
+		]]>
+	</select>
+	<update id="boardUpdate" parameterType="BoardDTO">
+      <![CDATA[
+         UPDATE ITEM SET TITLE=#{title},PRICE=#{price},CATEGORY=#{category},DESCRIPTION=#{description} WHERE IID=#{iid}
+      ]]>
+   </update>
+   <update id="boardDelete" parameterType="java.lang.Integer">
+   		<![CDATA[
+			DELETE FROM ITEM WHERE IID=#{iid}
+		]]>
+   </update>
+
+   <update id="replyUpdateStep" parameterType="ReplyDTO">
+   		<![CDATA[
+			UPDATE REPLY SET STEP=STEP+1 WHERE IID=#{iid} AND STEP>=#{step}
+		]]>
+
+   </update>
+   <update id="boardUpdateReply" parameterType="java.lang.Integer">
+   		<![CDATA[
+			UPDATE ITEM SET REPLY=(SELECT COUNT(*) FROM REPLY WHERE IID=#{iid}) WHERE IID=#{iid}
+		]]>
+   </update>
+
+   <update id="replyUpdate" parameterType="ReplyDTO">
+   		<![CDATA[
+			UPDATE REPLY SET CONTENT=#{content} WHERE RID=#{rid}
+		]]>
+   </update>
+   <update id="replyDelete" parameterType="java.lang.Integer">
+   		<![CDATA[
+			DELETE FROM REPLY WHERE RID=#{rid} OR REF=#{rid}
+		]]>
+   </update>
+   <update id="boardComplete" parameterType="java.lang.Integer">
+   		<![CDATA[
+			UPDATE ITEM SET SUCCESS=2 WHERE IID=#{iid}
+		]]>
+   </update>
+
+   <!-- map -->
+   <select id="getAllBoardList" resultType="BoardDTO">
+      <![CDATA[
+         SELECT IID,USERID,TITLE,PRICE,IMAGES,DESCRIPTION,CATEGORY,SUCCESS,BID,REPLY,HIT,TO_CHAR(LOGTIME,'YYYY.MM.DD')AS LOGTIME, ROADADDRPART1, ROADADDRPART2, ADDRDETAIL, LAT, LNG
+         FROM ITEM
+         LEFT JOIN ADDRESS
+         ON ITEM.ADDRID = ADDRESS.ADDRID
+      ]]>
+   </select>
+</mapper>

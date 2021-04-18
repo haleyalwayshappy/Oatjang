@@ -1,0 +1,273 @@
+:root {
+    --background_size: 860px;
+	--content_size: 800px;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.boardview_main_container {
+    display: flex;
+    flex-direction: column;
+    width: var(--background_size);
+    padding: 30px 30px 30px 30px;
+    border: 1px solid gray;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0 auto;
+}
+
+.boardView_container {
+    position: relative;
+    display:flex;
+	border-bottom: 1px solid #ccc;
+}
+
+.image_container {
+	border-right: 1px solid #ccc;
+    width: 360px;
+    height: 480px;
+}
+
+
+.image_container .main_image {
+
+    width: 360px;
+    height: 360px;
+}
+
+.image_container .main_image img {
+    width: 360px;
+    height: 360px;
+}
+
+.image_container .sub_images {
+
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+}
+
+.image_container .sub_images img {
+    width: 33.3%;
+}
+
+.board_btns {
+    position: absolute;
+  /*   bottom: 1em;
+    display:flex; */
+    justify-content: center;
+}
+
+.boardTag {
+   font-size:18px;
+   background:#824820;
+  color:#fff;
+  padding: 3px 10px;
+  border:none;
+  border-radius:5px;
+  margin: 0px 10px;
+  float:right;
+}
+.boardTag:hover{
+	background:#fff;
+ 	 color:#000;
+}
+
+.back_button {
+    position: absolute;
+    top: 50%;
+    left: 4em;
+}
+.back_button i {
+    font-size: 4rem;
+    color: #fff;
+}
+
+
+/* 정보 표시 공간 */
+.info_container {
+
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    width: 38vw;
+    overflow:hidden;
+}
+
+.item_title_area {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.item_title {
+
+    padding-top: 1em;
+    padding-bottom: 0.2em;
+    font-size: 1.2em;
+}
+
+.item_date {
+    padding-top: 1em;
+    padding-right: 0.2em;
+    float: right;
+    font-size: 0.8em;
+}
+
+.item_price {
+    margin-top: 0.4em;
+    font-weight: 900;
+    padding-top: 0.2em;
+    font-size: 1.5em;
+}
+
+.item_category {
+    padding-top: 0.2em;
+}
+
+.item_description {
+    margin-top: 0.4em;
+    border-radius: 2px;
+    height: 40%;
+    padding-top: 0.8em;
+    padding-bottom: 0.4em;
+
+}
+
+.item_nickname {
+    padding-top: 1em;
+}
+
+.item_nickname a{
+	color : gray;
+	font-size: 18px;
+}
+
+.item_nickname a:hover{
+	color : darkgray;
+}
+
+
+/* 댓글 */
+.comment_option {
+   width: var(--content_size);
+   margin: 0px 0px 11px;
+   padding: 16px 0px 0px;
+   padding-bottom: 5px;
+   border-bottom: 1px solid gray;
+}
+
+.comment_option h3 {
+            width: 100px;
+            height: 23px;
+            color: #000000;
+            font-family: bold;
+            font: 20px "Apple SD Gothic Neo";
+            margin: 3px 12px 0px 0px;
+}
+
+.comment_textarea {
+    width: 100%;
+}
+
+
+.comment_title {
+    width: 100px;
+    height: 23px;
+    color: #000000;
+    font-family: bold;
+    font: 20px "Apple SD Gothic Neo";
+    margin: 3px 12px 0px 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* 등록 버튼 */
+
+.reply_area {
+	background-color: pink;
+    width: var(--content_size);
+    display: flex;
+	
+}
+
+.reply_area textarea {
+    border-radius: 5px;
+    padding: 2px;
+    border: 1px solid gray ;
+    outline: none;
+	
+}
+
+ #reply_btn {
+	width: 60px;
+	height: inherit;    
+	background-color: #824820;
+	color: #fff;
+	border-radius: 5px;
+	border:none;
+	outline: none;
+}
+
+#reply_btn:hover{
+    background:#fff;
+	color:#000;
+}
+
+/* 답글 공간 */
+#commentListForm{
+    width: var(--content_size);
+}
+
+.nickname_content h4 {
+	
+    margin-top: 10px;
+}
+.nickname_content .reply__content {
+    margin-top: 4px;
+}
+
+.replyList,
+.re_replyList {
+    border-bottom: 1px solid #ddd;
+}
+
+.replyList .replyButtonGroup {
+
+    text-align: right;
+}
+.replyList .replyButtonGroup a {
+    margin: 10px;
+    text-decoration: none;
+    color: #999;
+}
+.replyList .replyButtonGroup a:hover {
+    color: #444;
+}
+
+.re_replyList .replyButtonGroup {
+    text-align: right;
+}
+
+.re_replyList .nickname_content {
+    margin-left: 40px;
+}
+.re_replyList .replyButtonGroup a {
+    margin: 10px;
+    text-decoration: none;
+    color: #999;
+}
+.re_replyList .replyButtonGroup a:hover {
+    color: #444;
+}
